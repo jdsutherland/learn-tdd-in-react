@@ -7,7 +7,7 @@ import {
 import NewMessageForm from '../NewMessageForm';
 
 describe('<NewMessageForm />', () => {
-  let getByTestId;
+  let getByRole;
 
   afterEach(cleanup);
 
@@ -16,22 +16,16 @@ describe('<NewMessageForm />', () => {
 
     beforeEach(() => {
       sendHandler = jest.fn();
-      ({ getByTestId } = render(<NewMessageForm onSend={sendHandler}/>));
+      ({ getByRole } = render(<NewMessageForm onSend={sendHandler}/>));
 
       fireEvent.change(
-        getByTestId('messageText'),
-        {
-          target: {
-            value: 'New message',
-          },
-        },
-      );
+        getByRole('textbox'), { target: { value: 'New message', } });
 
-      fireEvent.click(getByTestId('sendButton'));
+      fireEvent.click(getByRole('button'));
     });
 
     it('clears the text field', () => {
-      expect(getByTestId('messageText').value).toEqual('');
+      expect(getByRole('textbox').value).toEqual('');
     });
 
     it('calls the send handler', () => {
